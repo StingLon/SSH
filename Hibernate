@@ -57,6 +57,41 @@ Transaction               事务四个特性：原子性、一致性、隔离性
 托管态：有ID值，和session没关联
 
 
+一级缓存 ：
+session的缓存
+作用：减少对数据库的访问次数，从而提升hibernate的执行效率。
+
+只要是持久化对象状态的，都受Session管理，也就是说，都会在Session缓存中
+用户不能操作缓存内容； 如果想操作缓存内容，必须通过hibernate提供的evit/clear方法操作。
+
+相关方法：
+session.flush();       让一级缓存与数据库同步
+session.evict(arg0);    清空一级缓存中指定的对象
+session.clear();       清空一级缓存中缓存的所有对象
+
+二级缓存
+目前已经不使用，替代技术redis
+
+
+
+
+懒加载：懒加载就是当使用数据的时候才去获取数据、执行对应的SQL语句…当还没用到数据的时候，就不加载对应的数据!
+主要目的就是为了提高Hibernate的性能，提高执行效率！
+
+get: 及时加载，只要调用get方法立刻向数据库查询
+load:默认使用懒加载，当用到数据的时候才向数据库查询。
+
+User user = (User) session.load(User.class, 1);
+
+
+可以在对应的配置文件用通常lazy属性来设置
+    <class name="IdCard" table="IdCard" lazy="false">
+true   使用懒加载
+false   关闭懒加载
+
+
+
+
 5.  查询：
           get/load主键查询
 
@@ -70,7 +105,6 @@ Transaction               事务四个特性：原子性、一致性、隔离性
  
           本地SQL查询
                     SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM monkey_ limit 0,3");
-
 
             
 	    
