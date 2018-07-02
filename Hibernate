@@ -57,15 +57,41 @@ Transaction               事务四个特性：原子性、一致性、隔离性
 托管态：有ID值，和session没关联
 
 
-5.主键查询
+5.  查询：
+          get/load主键查询
 
-  HQL查询
+          对象导航查询             直接使用对象得到集合…就可以得到对应的数据了。
+
+          HQL查询          HQL不支持*号，
+                        Query q = session.createQuery("from Dept");
   
-  QBC查询       query by criteria  完全面向对象的查询
+          QBC查询(Criteria 查询)       query by criteria  完全面向对象的查询
+                       Criteria criteria = session.createCriteria(Monkey.class);
+ 
+          本地SQL查询
+                    SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM monkey_ limit 0,3");
 
-  本地SQL查询
 
-
+            
+	    
+	    
+	    
+	  分页查询：
+	       得到数据库表中的总记录数
+               查询起始位置到末尾位数的数据
+        Query query = session.createQuery("from Monkey");
+        //得到滚动结果集
+        ScrollableResults scroll = query.scroll();
+        //滚动到最后一行
+        scroll.last();
+        int i = scroll.getRowNumber() + 1;
+        System.out.println("总计路数：" + i);
+        //设置分页位置
+        query.setFirstResult(0);
+        query.setMaxResults(3);
+        System.out.println(query.list());
+	    
+	    
 
 6.映射相关
 
@@ -107,25 +133,50 @@ Map集合映射配置                         Map集合和Collection集合的区
  多对多
 
 
+8.inverse属性 
+   表示控制权是否转移.
+   因为hibernate双向维护外键，在客户和联系人中都需要维护外键，修改客户时修改一次外键，修改联系人时候也是修改一次外键，造成了性能问题。
+   解决：让其中一方放弃外键维护
+ <set name="user"  inverse="true">           (ture为放弃，false是不放弃)
+ 
+inverse属性只能在“一”的一方设置
+
+Inverse在维护关联关系时是否起作用：
+保存数据
+获取数据
+解除关联关系
+删除数据对关联关系的影响
+
+
+9.cascade属性
+级联             操作某一属性时，对其他关联字段的影响
+
+可以在“一”的一方也可以在“多”的一方设置
+
+<set name="setLinkMan" cascade="save-update,delete">
+
+
+
+10.连接池
+  <!-- 【连接池配置】 -->
+        <!-- 配置连接驱动管理类 -->
+        <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+        <!-- 配置连接池参数信息 -->
+        <property name="hibernate.c3p0.min_size">2</property>
+        <property name="hibernate.c3p0.max_size">4</property>
+        <property name="hibernate.c3p0.timeout">5000</property>
+        <property name="hibernate.c3p0.max_statements">10</property>
+        <property name="hibernate.c3p0.idle_test_period">30000</property>
+        <property name="hibernate.c3p0.acquire_increment">2</property>
 
 
 
 
+11.在设计数据库表时，我们使用PowerDesigner来生成概念模型\物理模型…
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+12.逆向工程可以帮我们自动生成实体和映射文件，这样就非常方便了。
 
 
 
