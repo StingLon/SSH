@@ -2,3 +2,155 @@ Hibernate
 
 开源轻量级框架
 Hibernate是一种ORM框架
+让实体类首先和数据库表对应，让实体类属性和表里字段对应，以实现直接存取Java对象！
+
+
+
+hibernate执行流程：
+第一步：加载hibernate核心配置文件
+第二步：创建sessionFactory对象
+第三步：使用sessionFactory创建SESSION对象
+第四步：开启事务
+第五步：写具体逻辑crud操作
+第六步：提交事务
+第七步：关闭资源
+
+    Configuration config= new Configuration();
+		config.configure();		
+		SessionFactory sessionFactory=config.buildSessionFactory();	
+		Session session=sessionFactory.openSession();
+		Transaction tx=session.beginTransaction();
+		...
+		session.save(demo1);
+		tx.commit();
+		session.close();
+		sessionFactory.close();
+
+
+
+
+1.引入jar开发包
+hibernate3.jar核心  +  required 必须引入的(6个) +  jpa 目录  + 数据库驱动包
+
+2.配置相关的XML文件   相关写法
+主配置文件：     hibernate.cfg.xml
+映射配置：      .hbm.xml
+
+
+3.熟悉API
+Configuration             配置管理类：主要管理配置文件的一个类
+                          configure方法                   加载配置文件
+                          buildSessionFactory方法         创建Session工厂
+
+SessionFactory 
+                          openSession方法                   创建一个Session对象
+                          getCurrentSession方法             创建Session对象或取出Session对象
+
+Session                  （1）类似jdbc中connection（2）调用crud操作（3）session对象单线程对象，session对象不能共用，只能使用
+                    
+Transaction               事务四个特性：原子性、一致性、隔离性、持久性
+
+
+4.实体类对象的状态（概念）
+瞬时态：对象没有ID值，对象和session没有关联
+持久态：对象有ID值，和SESSION有关联
+托管态：有ID值，和session没关联
+
+
+5.主键查询
+
+  HQL查询
+  
+  QBC查询       query by criteria  完全面向对象的查询
+
+  本地SQL查询
+
+
+
+6.映射相关
+
+（1）Set集合映射配置
+ <!-- 在客户映射中中表示所有的联系人              使用set标签表示所有人，set标签中有Name属性，属性写在客户实体类中表示联系人的set集合名称     -->    
+        <set name="setLinkMan" cascade="save-update,delete">
+           <!-- 一对多建表，由外键
+           hibernate机制，双向维护外键，在一和多那一方都配置外键
+             column属性值，外间名称
+            -->       
+          <key column="clid"></key>
+          <!-- 客户所有联系人，class中写联系人实体类全路径 -->
+          <one-to-many class="huibernateDemo.LinkMan"/>
+        </set>    
+
+
+List集合映射配置                        List集合是有序的，因此要多配置一个列来维护数据的有序性！
+        <list name="address" table="address">
+            <key column="user_id"></key>
+            <!--index是关键字，不能使用！！！！-->
+            <list-index column="indexNum"></list-index>
+            <element column="addr" type="string"></element>
+        </list>
+        
+        
+Map集合映射配置                         Map集合和Collection集合的区别就是键值对模型，那么在配置的时候多一个key即可！
+ 
+
+（2）组件映射
+    继承映射
+
+（3）子类拥有自己的表、父类不对应表【推荐】union-subclass
+     子类、父类都有自己的表joined-subclass，那么就是三张表
+     子类父类共有一张表subclass
+
+
+7.一对多
+
+ 多对多
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
