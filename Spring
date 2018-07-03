@@ -1,1 +1,65 @@
+spring
+
+spring 是开源轻量级框架
+
+核心：  AOP：面向切面编程,扩展功能不是修改源代码实现
+       IOC：控制反
+
+一站式框架
+spring在javaee三层结构中每层都提供不同的解决技术
+   Web层：  springMVC
+   Service层： Spring  的IOC
+   Dao层：Spring的jdbcTemplate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
