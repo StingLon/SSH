@@ -1,6 +1,6 @@
 spring
 
-spring 是开源轻量级框架
+spring 是开源轻量级框架,  简化Java的开发
 
 核心：  AOP：面向切面编程,扩展功能不是修改源代码实现
        IOC：控制反
