@@ -11,6 +11,66 @@ jdbc比较固定但是太麻烦要自己操作
 
 
 
+一、基本
+
+1.流程：
+1. String resource = "sqlMapConfig.xml";
+    通过resource读取 映射文件.xml
+    InputStream inputStream = Resources.getResourceAsStream(resource); 
+   
+2.   SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+   通过SqlSessionFactoryBuilder()创建sqlSessionFactory
+   
+3.SqlSession sqlSession = sqlSessionFactory.openSession();
+  打开线程 sqlSession 
+  
+4.事务默认开启 ， 不用管
+
+5.编写SQL语句
+
+6.提交事务 commit()
+
+7.关闭资源  inputStream.close();
+           sqlSession.close();
+ 
+
+2.
+MyBatis：机械工具，使用方便，拿来就用，但工作还是要自己来作，不过工具是活的，怎么使由我决定。（小巧、方便、高效、简单、直接、半自动）
+Hibernate：智能机器人，但研发它（学习、熟练度）的成本很高，工作都可以摆脱他了，但仅限于它能做的事。（强大、方便、高效、复杂、绕弯子、全自动）
+
+3.
+配置DAO的两种方式：原始DAO/Mapper动态代理方式
+
+
+
+二、输入映射和输出映射
+
+
+三、动态sql
+
+
+四、关联查询
+
+
+
+五、Mybatis整合spring
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
