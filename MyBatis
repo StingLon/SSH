@@ -1,3 +1,23 @@
+MyBatis 本是apache的一个开源项目iBatis
+优秀的持久层框架
+对jdbc的操作数据库的过程进行封装，使开发者只需要关注 SQL 本身
+
+为什么我们要用Mybatis？
+无论是Mybatis、Hibernate都是ORM的一种实现框架，都是对JDBC的一种封装.
+
+Hibernate处理业务复杂，复杂的hql很难解释，例如HQL多表查询
+jdbc比较固定但是太麻烦要自己操作
+而MyBatis的出现恰好平衡
+
+
+
+
+
+
+
+
+
+
 
 
 
