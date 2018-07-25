@@ -1,16 +1,44 @@
 SpringMVC 
 
+web层框架
 它用在基于MVC的表现层开发，类似于struts2框架
 
+和struts2区别：
+1.strut2绑定参数是在成员变量上，而springmvc是绑在形参    ，  从而   运行速度较慢【比SpringMVC要慢】
+2.strut2单例   ，springmvc多例        （单例是一个方法为单位，一个请求复制一个方法，多例以一个类为单位模版，一个请求复制一个类）           
+3.springmvc没有值栈而strut2有
+4.springmvc入口是一个servlet即前端控制器，strut2是一个filter过滤器
+
+
 一、入门
+1.步骤：
+1.web工程
+2.导包
+3.在web.xml中配置前端控制器（指定路径）
+4.springmvc.xml配置扫描@controller注解
+5.action 中   类上@Controller  方法上@RequestMappering(vlaue=请求路径)
+         public ModelAndView test(){
+         new ModerAndView
+         设置数据和JSP路径      
+         }
 
 
 
 
+2.架构分析：
+一个中心      和        三个基本点
+前端控制器             处理器映射器、处理器适配器、视图解释器   由springmvc提供
 
+Handler处理器，jsp视图由程序员书写
 
+3.默认三大组件
+废弃了换成：
+<mvc:annonation-driver/>
 
-
+4.整个mybatis
+整个思想：
+1.sqlMapConfig.xml  核心配置文件
+2.applicationContent.xml  配置数据库 
 
 
 
