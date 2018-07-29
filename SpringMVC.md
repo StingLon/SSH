@@ -14,8 +14,8 @@ SpringMVC
 >>>	(4)springmvc入口是一个servlet即前端控制器，strut2是一个filter过滤器。
 
 
->3.流程图
-<br/>
+3.流程图
+
 ![](https://github.com/StingLon/SSH/blob/master/1.png)
 
 
