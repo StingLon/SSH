@@ -13,10 +13,42 @@ SpringMVC
 >>>	(3)strut2有值栈而springmvc是通过request域。
 >>>	(4)springmvc入口是一个servlet即前端控制器，strut2是一个filter过滤器。
 
+<br/>
 
-3.流程图
+<3.流程图
 
 ![](https://github.com/StingLon/SSH/blob/master/1.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
