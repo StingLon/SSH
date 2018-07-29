@@ -43,19 +43,10 @@ Spring 框架提供了构建 Web 应用程序的全功能 MVC 模块，属于web
 	</servlet-mapping>
 (3)配置文件     spring-mvc.xml
  配置扫描@controller注解
-
-
-
-
-
-
-
-4.springmvc.xml配置扫描@controller注解
 <!-- 配置controller扫描包 -->
 	<context:component-scan base-package="cn.itcast" />
-
-5.action 中   类上@Controller  方法上@RequestMappering(vlaue=请求路径)
-
+	
+(4)action 中   类上@Controller  方法上@RequestMappering(vlaue=请求路径)
 @Controller
 public class ItemController {
 
@@ -72,13 +63,6 @@ public ModelAndView itemList(){
 
 
 
-
-二、Springmvc 流程：
-
-用户发送HTTP请求，SpringMVC核心控制器接收到请求
-找到是否有对应的action类
-Action类处理完结果封装到ModelAndView中
-通过视图解析器把数据解析，跳转到对应的JSP页面
 
 
 
