@@ -1,11 +1,10 @@
 SpringMVC 
 
+
 一、基本概述
 1.SpringMVC是什么：
-
 Spring 框架提供了构建 Web 应用程序的全功能 MVC 模块，属于web层框架。
 它用在基于MVC的表现层开发，类似于struts2框架。
-
 
 2.有Struts2为什么还有使用SpringMVC？
 两者区别：
@@ -15,70 +14,40 @@ Spring 框架提供了构建 Web 应用程序的全功能 MVC 模块，属于web
 	(4)springmvc入口是一个servlet即前端控制器，strut2是一个filter过滤器。
 
 3.流程图      （1.png）
+(1)用户请求
+(2)前端控制器 DispatcherServlert，即servlet拦截请求给处理器
+(3)处理器，处理请求业务并返回处理结果 给前端控制器
+(4)前端控制器把处理结果转发到jsp
+(5)JSP页面渲染后返回html页面 最终响应给用户
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-一、入门
-1.步骤：
-1.web工程
-2.导包
-3.在web.xml中配置前端控制器（指定路径）
-
+4.入门程序
+(1)导包
+(2)web.xml中配置springmvc 
 <servlet>
-		<servlet-name>springmvc</servlet-name>		
+		<servlet-name>springmvc(取名)</servlet-name>		
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-	    <init-param>
+	       <init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring-mvc.xml</param-value>
-		</init-param>
+			<param-value>classpath:spring-mvc.xml(配置文件)</param-value>
+	       </init-param>
 	</servlet>
-	
-	
 	<servlet-mapping>
-		<servlet-name>springmvc</servlet-name>
+		<servlet-name>springmvc(取名一致)</servlet-name>
 		<url-pattern>*.action</url-pattern>
+     <!--
+		  /*              拦截所有jsp/js/png/css 
+		  *.action        拦截action结尾的请求
+		  *.do            拦截do结尾的请求
+                  /               拦截所有（不包括jsp）(包括js/png/css)
+     -->
 	</servlet-mapping>
+(3)配置文件     spring-mvc.xml
+ 配置扫描@controller注解
+
+
+
+
+
 
 
 4.springmvc.xml配置扫描@controller注解
