@@ -9,7 +9,7 @@ SpringMVC
 >2.有Struts2为什么还有使用SpringMVC？<br/>
 >>两者区别：
 >>>	(1).Struts2运行速度较慢，比SpringMVC要慢。是因为struts2绑定参数是在成员变量上，而springmvc是绑在形参上。<br/>
->>>	(2)strut2单例，springmvc多例     （单例是一个方法为单位，一个请求复制一个方法，多例以一个类为单位模版，一个请求复制一个类）。<br/>   
+>>>	(2)strut2单例，springmvc多例。单例是一个方法为单位，一个请求复制一个方法，多例以一个类为单位模版，一个请求复制一个类。<br/>   
 >>>	(3)strut2有值栈而springmvc是通过request域。<br/>
 >>>	(4)springmvc入口是一个servlet即前端控制器，strut2是一个filter过滤器。<br/>
 
