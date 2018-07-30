@@ -2,9 +2,11 @@ SpringMVC
 
 
 一、基本概述
+
 1.SpringMVC是什么：
 Spring 框架提供了构建 Web 应用程序的全功能 MVC 模块，属于web层框架。
 它用在基于MVC的表现层开发，类似于struts2框架。
+
 
 2.有Struts2为什么还有使用SpringMVC？
 两者区别：
@@ -12,13 +14,18 @@ Spring 框架提供了构建 Web 应用程序的全功能 MVC 模块，属于web
 	(2)strut2单例，springmvc多例。单例是一个方法为单位，一个请求复制一个方法，多例以一个类为单位模版，一个请求复制一个类。
 	(3)strut2有值栈而springmvc是通过request域。
 	(4)springmvc入口是一个servlet即前端控制器，strut2是一个filter过滤器。
+	
+	
 
-3.流程图      （1.png）
-(1)用户请求
-(2)前端控制器 DispatcherServlert，即servlet拦截请求给处理器
-(3)处理器，处理请求业务并返回处理结果 给前端控制器
-(4)前端控制器把处理结果转发到jsp
-(5)JSP页面渲染后返回html页面 最终响应给用户
+3.流程结构图      （1.png）
+(1)用户请求传至前端控制器
+(2)前端控制器 DispatcherServlert，即servlet拦截请求给 处理器映射器 发送请求查询Handler
+(3)处理器映射器，处理请求业务并返回处理结果Hanader 返回给前端控制器
+(4)前端控制器不做事同时 请求执行Handler 转发到 处理器适配器 HandlerAdapter
+(5)处理器适配器  执行Handler 在处理器返回ModelAndView 给前端控制器
+(6)前端控制器请求解析视图给 视图解析器,视图解析器返回view对象
+(7)前端控制器通过JSP页面渲染后返回html页面 最终响应给用户
+
 
 4.入门程序
 (1)导包
@@ -41,6 +48,9 @@ Spring 框架提供了构建 Web 应用程序的全功能 MVC 模块，属于web
                   /               拦截所有（不包括jsp）(包括js/png/css)
      -->
 	</servlet-mapping>
+	
+	
+	
 (3)配置文件     spring-mvc.xml
  配置扫描@controller注解
 <!-- 配置controller扫描包 -->
@@ -49,17 +59,29 @@ Spring 框架提供了构建 Web 应用程序的全功能 MVC 模块，属于web
 (4)action 中   类上@Controller  方法上@RequestMappering(vlaue=请求路径)
 @Controller
 public class ItemController {
-
-@RequestMapping(value="/itemList.action")
-public ModelAndView itemList(){
-	
+@RequestMapping(value="/itemList.action")                          (输入地址：localhhost:8080/springmvc/itemList.action)
+public ModelAndView itemList(){	
 	ModelAndView mav=new ModelAndView();
 	mav.setViewName("/WEB-INF/jsp/itemList.jsp");
 	return mav;
 }
-
 （注解说明：@Controller     　负责注册一个bean 到spring 上下文中
            @RequestMappin    注解为控制器指定可以处理哪些 URL 请求）
+
+
+
+
+二、框架结构
+
+
+
+
+
+
+
+
+
+
 
 
 
