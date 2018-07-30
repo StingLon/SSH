@@ -17,7 +17,7 @@ Spring 框架提供了构建 Web 应用程序的全功能 MVC 模块，属于web
 	
 	
 
-3.流程结构图      （1.png）
+3.流程结构图      （1.png 流程图）   
 (1)用户请求传至前端控制器
 (2)前端控制器 DispatcherServlert，即servlet拦截请求给 处理器映射器 发送请求查询Handler
 (3)处理器映射器，处理请求业务并返回处理结果Hanader 返回给前端控制器
@@ -50,7 +50,6 @@ Spring 框架提供了构建 Web 应用程序的全功能 MVC 模块，属于web
 	</servlet-mapping>
 	
 	
-	
 (3)配置文件     spring-mvc.xml
  配置扫描@controller注解
 <!-- 配置controller扫描包 -->
@@ -70,8 +69,48 @@ public ModelAndView itemList(){
 
 
 
-
 二、框架结构
+（框架图.png）
+前端控制器(DispatcherServlert)、处理器映射器（HandlerMapping）、处理器适配器(HandlerAdapter)、处理器(Handler)、视图解析器(ViewResolver)、JSP
+
+1.组件扫描器
+<!-- 配置controller扫描包，多个包之间用,分隔 -->
+<context:component-scan base-package="cn.itcast.springmvc.controller" />
+
+2.配置处理器映射器
+<!-- 配置处理器映射器 -->
+<bean  class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" />
+
+3.配置处理器适配器
+<!-- 配置处理器适配器 -->
+<bean  class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" />
+
+4.注解驱动
+可以在springmvc.xml配置文件中使用<mvc:annotation-driven>替代注解处理器和适配器的配置。
+<!-- 注解驱动 -->
+<mvc:annotation-driven />
+
+5.视图解析器
+	<!-- 配置视图解析器 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 配置逻辑视图的前缀 -->
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<!-- 配置逻辑视图的后缀 -->
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
