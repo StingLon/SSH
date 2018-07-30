@@ -64,8 +64,12 @@ public ModelAndView itemList(){
 	mav.setViewName("/WEB-INF/jsp/itemList.jsp");
 	return mav;
 }
+
 （注解说明：@Controller     　负责注册一个bean 到spring 上下文中
            @RequestMappin    注解为控制器指定可以处理哪些 URL 请求）
+
+
+
 
 
 
@@ -104,54 +108,55 @@ public ModelAndView itemList(){
 
 
 
+三、参数绑定
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-三、架构分析：
-一个中心      和        三个基本点
-前端控制器             处理器映射器、处理器适配器、视图解释器   由springmvc提供
-
-Handler处理器，jsp视图由程序员书写
-
-
-
-四、整合mybatis
-整合思想：
-1.sqlMapConfig.xml  核心配置文件
-2.applicationContent.xml  配置数据库  、扫描
-
-
-
-
-
-五、参数绑定
 1.默认绑定 
-2.简单类型参数绑定
-3.POJO类型
-4.包装类型
+2.简单类型参数绑定          @RequestParam 的使用
+3.参数绑定之POJO类型                 upadata  提交类  
+ a.解决POST乱码问题
+ 	<filter>
+		<filter-name>encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<!-- 设置编码参是UTF8 -->
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encoding</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+4.参数绑定之包装的POJO类型
 5.自定义参数类型  
+6.参数绑定之绑定数组
+7.参数绑定之List
+
+
+四、相关
+1.RequestMapping的使用
+
+2.Controller方法返回值
+a.ModelAndView  不建议使用   public ModelAndView item(){         new ModelAndView ...    }
+b.String     官方建议       public String item(Model model){     model.addAttribute(,)   return ..   }
+c.void        ajax请求适合          public void item(Model model,...){  model.addAttribute(,)      request.getRequestDispatchaer("").forward(request,response);     }
+
+3.异常处理器
+
+
+
+
+
+
+
+
+
+整合mybatis
+
+
+
+
+
 
 
 
