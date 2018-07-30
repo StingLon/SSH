@@ -133,6 +133,7 @@ public ModelAndView itemList(){
 7.参数绑定之List
 
 
+
 四、相关
 1.RequestMapping的使用
 
@@ -143,15 +144,30 @@ c.void        ajax请求适合          public void item(Model model,...){  mode
 
 3.异常处理器
 
-4.上传图片
+4.上传图片              配置上传解析器
 
+5.json数据交互
 
+6.Restful 风格
+    @RequestMapping("/viewItems/{id}")
+    public @ResponseBody ItemsCustom viewItems(@PathVariable("id") Integer id) throws Exception{
 
+7.拦截器            配置拦截器
+例：顺序
+方法前1
+方法前2
+方法后2
+方法后1
+页面渲染后2
+页面渲染后1
 
+总结：
+preHandle按拦截器定义顺序调用
+postHandler按拦截器定义逆序调用
+afterCompletion按拦截器定义逆序调用
 
-
-
-整合mybatis
+postHandler在拦截器链内所有拦截器返成功调用
+afterCompletion只有preHandle返回true才调用
 
 
 
