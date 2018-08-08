@@ -1,0 +1,253 @@
+MyBatis 本是apache的一个开源项目iBatis
+优秀的持久层框架
+对jdbc的操作数据库的过程进行封装，使开发者只需要关注 SQL 本身
+
+
+为什么我们要用Mybatis？
+无论是Mybatis、Hibernate都是ORM的一种实现框架，都是对JDBC的一种封装.
+
+Hibernate处理业务复杂，复杂的hql很难解释，例如HQL多表查询
+jdbc比较固定但是太麻烦要自己操作
+而MyBatis的出现恰好平衡
+
+
+
+
+主要内容：
+1.入门       （基本CRUD流程、分页、动态SQL）                       
+2.配置文件
+3.对多映射
+4.缓存、延迟加载、逆向工程
+5.整合spring
+
+
+
+
+
+
+
+
+一、入门
+基本CRUD       （pojo、配置文件、映射文件、test）
+
+1.创建数据库表 （user表id、name字段）
+
+2.创建 cn.mybatis.pojo包下基本类User
+  get/set/toString  方法
+  
+3.配置文件   mybatis-config.xml
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<environments default="development">
+		<environment id="development">
+			<!-- 使用jdbc事务管理 -->
+			<transactionManager type="JDBC" />
+			<!-- 数据库连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url"
+					value="jdbc:mysql://localhost:3306/mybatis?characterEncoding=utf-8" />
+				<property name="username" value="root" />
+				<property name="password" value="123456" />
+			</dataSource>
+		</environment>
+	</environments>
+    
+    <!-- 配置映射关系 -->
+<mappers>
+<mapper  resource="sqlmap/User.xml"/>
+</mappers>
+
+</configuration>
+
+
+
+4.创建映射文件   User.xml                    CRUD操作如下
+cn.mybatis.pojo包下创建也可单独建包               
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+<!-- Id查询 -->
+<select id="findtById" parameterType="Integer" resultType="com.mybatis.bean.User">
+select *from user where id=#{i}
+</select>
+
+<!-- 用户名模糊查询 -->
+<select id="firstByName" parameterType="String" resultType="com.mybatis.bean.User">
+select *from user where username like '%${value}%'
+</select>
+
+<!-- 添加 -->
+<insert id="addUser" parameterType="com.mybatis.bean.User" >
+<!--返回id-->
+<selectKey keyProperty="id" resultType="Integer" order="AFTER">
+  select LAST_INSERT_ID()                          //自动返回主键
+</selectKey>
+insert into user(username,birthday,address,sex) values(#{username},#{birthday},#{address},#{sex}
+</insert>
+
+<!-- 修改 -->
+<update id="updatebyId" parameterType="com.mybatis.bean.User" >
+update user
+set username=#{username},sex=#{sex},birthday=#{birthday},address=#{address}
+where id=#{id}
+</update>
+
+<!-- 删除 -->
+<delete id="deletebyId" parameterType="Integer" >
+delete from user where id=#{d}
+</delete>
+</mapper>
+
+
+
+
+5.测试类test
+public void test(){}
+ String resource = "sqlMapConfig.xml";  // 通过resource读取 映射文件.xml  
+ InputStream inputStream = Resources.getResourceAsStream(resource);  
+ SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);  //通过SqlSessionFactoryBuilder()创建sqlSessionFactory
+ SqlSession sqlSession = sqlSessionFactory.openSession();  //    打开线程 sqlSession 
+  
+//事务默认开启编写SQL语句
+        //id查
+         User user= sqlSession.selectOne("user.findtById",16);
+     
+       //用户名模糊查询
+         List<User> users= sqlSession.selectList("user.firstByName","五");
+       for(User user2:users){
+    	    System.out.println(user2);
+       } 
+       
+     //添加
+        User user=new User();
+        user.setUsername("萨大的所");
+        sqlSession.insert("user.addUser",user);
+        sqlSession.commit();
+        System.out.println(user.getId());
+    
+     //删除
+	   sqlSession.delete("user.deletebyId",26);
+	   sqlSession.commit();
+	  
+    // 修改
+      User user=new User();
+      user.setId(30);
+      user.setUsername("萨所");      
+     sqlSession.update("user.updatebyId",user);
+     
+
+ sqlSession.commit()
+ inputStream.close();
+ sqlSession.close();
+ 
+ 
+ 
+ 
+ 
+ 6.工作流程：
+通过Reader对象读取Mybatis映射文件
+通过SqlSessionFactoryBuilder对象创建SqlSessionFactory对象
+获取当前线程的SQLSession
+事务默认开启
+通过SQLSession读取映射文件中的操作编号，从而读取SQL语句
+提交事务
+关闭资源
+ 
+ 
+ 
+ 
+ 
+ 
+分页操作： 
+
+当需要接收多个参数的时候，我们使用Map集合来装载！
+
+ 1.映射文件中添加
+ <select id="listCategory" resultType="Category">
+            select * from   category_
+                <if test="start!=null and count!=null">
+                    limit #{start},#{count}
+                </if>
+        </select>    
+        
+ 2.test
+ public class Test {
+    public static void main(String[] args) throws IOException {
+        String resource = "mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSession session = sqlSessionFactory.openSession();
+ 
+  xmlWay(session);   
+   
+        session.commit();
+        session.close();
+    }
+   private static void xmlWay(SqlSession session) {
+        Map<String,Object> params = new HashMap<>();
+        params.put("start", 0);
+        params.put("count", 5);
+        List<Category>  cs =session.selectList("listCategory", params);
+        for (Category c : cs) {
+            System.out.println(c);
+        }
+    }
+        
+3.另外一种方式是注解方式
+
+
+
+
+
+动态SQL
+参考：http://how2j.cn/k/mybatis/mybatis-annotation-dynamic-sql/1124.html#nowhere
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
