@@ -1,0 +1,64 @@
+缓存、代理、逆向工程
+
+
+一.缓存
+mybatis提供一级缓存和二级缓存
+
+mybatis一级缓存是一个SqlSession级别，sqlsession只能访问自己的一级缓存的数据。 Mybatis默认就是支持一级缓存的，并不需要我们配置.
+二级缓存是跨sqlSession，是mapper级别的缓存，对于mapper级别的缓存不同的sqlsession是可以共享的。
+
+
+二级缓存设置：
+1.在配置文件中：
+    <!-- 全局配置参数 -->
+    <settings>
+        <!-- 开启二级缓存 -->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+2.在映射文件中
+<mapper namespace="com.how2java.pojo">下行添加 <cache/>
+3.让pojo类 实现序列化接口       
+public class Category implements Serializable{
+
+
+
+二、Mapper代理方式
+Mapper代理方式的意思就是：程序员只需要写dao接口，dao接口实现对象由mybatis自动生成代理对象。
+
+1.  映射文件中
+    <mapper namespace="cn.ssm.mapper.CategoryMapper">    //mapper类
+    <insert id="add" parameterType="Category">
+      insert into category ( name ) values (#{name}) 
+    </insert>
+
+...
+2.mapper类创建mapper
+public interface CategoryMapper {
+	@Select("select id,user_id,number,createtime,note FROM orders")
+	public List<Category> selectOrderList();
+3.test
+  //sql
+	       CategoryMapper  mapper=  sqlSession.getMapper(CategoryMapper.class);
+	       List<Orders>   orderList=  mapper.selectOrderList();
+	        for(Orders orders:orderList){
+	        	System.out.println(orders);
+	        }   
+
+
+三、逆向工程
+
+http://how2j.cn/k/mybatis/mybatis-generator/1376.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
