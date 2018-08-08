@@ -51,13 +51,18 @@ Hibernate：智能机器人，但研发它（学习、熟练度）的成本很�
 
 
 二、输入映射和输出映射
-
+mapper
 
 三、动态sql
+if
+where
+choolse
+bind
+..
 
 
 四、关联查询
-
+对多查询
 
 
 五、Mybatis整合spring
