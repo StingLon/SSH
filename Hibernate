@@ -92,18 +92,23 @@ false   关闭懒加载
 
 
 
-5.  查询：
-          get/load主键查询
+5.  五种查询方式：
 
-          对象导航查询             直接使用对象得到集合…就可以得到对应的数据了。
+         （1） 对象导航查询  
+	   根据ID查询某个客户，在查询这个客户里面所有的联系人
+	   
 
-          HQL查询          HQL不支持*号，
-                        Query q = session.createQuery("from Dept");
-  
-          QBC查询(Criteria 查询)       query by criteria  完全面向对象的查询
+         （2）HQL查询   
+	        Query对象，写hql语句实现查询
+                        Query q = session.createQuery("from Dept"); 
+ 
+         （3）QBC查询(Criteria 查询)       query by criteria  完全面向对象的查询
                        Criteria criteria = session.createCriteria(Monkey.class);
  
-          本地SQL查询
+         （4）OID查询    
+	   根据id查询某一条记录，返回对象
+ 
+          （5）本地SQL查询
                     SQLQuery sqlQuery = session.createSQLQuery("SELECT * FROM monkey_ limit 0,3");
 
             
