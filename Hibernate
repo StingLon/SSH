@@ -51,7 +51,7 @@ Session                  （1）类似jdbc中connection（2）调用crud操作�
 Transaction               事务四个特性：原子性、一致性、隔离性、持久性
 
 
-4.实体类对象的状态（概念）
+4.hibernate的三种状态（概念）
 瞬时态：对象没有ID值，对象和session没有关联
 持久态：对象有ID值，和SESSION有关联
 托管态：有ID值，和session没关联
