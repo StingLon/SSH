@@ -27,6 +27,13 @@ Spring 框架提供了构建 Web 应用程序的全功能 MVC 模块，属于web
 (7)前端控制器通过JSP页面渲染后返回html页面 最终响应给用户
 
 
+用户发送HTTP请求，SpringMVC核心控制器接收到请求
+找到映射器看该请求是否交由对应的Action类进行处理
+找到适配器看有无该Action类
+Action类处理完结果封装到ModelAndView中
+通过视图解析器把数据解析，跳转到对应的JSP页面
+
+
 4.入门程序
 (1)导包
 (2)web.xml中配置springmvc 
