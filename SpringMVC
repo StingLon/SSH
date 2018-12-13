@@ -46,6 +46,31 @@ RequestMapping还能够限制该请求方法是GET还是POST。
 返回JSON对象，我们就需要用到@ResponseBody注解，如果接收JSON数据封装成JavaBean的话，我们就需要用到@RequestBody注解。随后在配置文件上创建对应的bean即可
 
 
+在SpringMVC中的业务方法默认支持的参数有四种
+request
+response
+session
+model
+我们的参数绑定(自动封装参数)是由我们的转换器来进行绑定的。现在用的一般都是Converter转换器
+在上一章中我们使用WebDataBinder方式来实现对日期格式的转化，当时仅仅是可用于当前Action的。我们想要让全部Action都可以使用的话，有两种方式:
+实现PropertyEditorRegistrar(比较老的方式)
+实现Converter(新的方式)
+参数绑定都有遵循的规则：方法参数名要与传递过来的name属性名相同
+我们可以使用@RequestParam注解来具体指定对应的name属性名称，这样也是可以实现参数绑定的。
+还能够配置该参数是否是必须的。
+Controller方法的返回值有5种:
+void
+String
+ModelAndView
+redirect重定向
+forward转发
+Model内部就是将数据绑定到request域对象中的。
+@ModelAttribute注解能够将数据绑定到model中(也就是request中)，如果经常需要绑定到model中的数据，抽取成方法来使用这个注解还是不错的。
+idea配置虚拟目其实就是加多一个deployment，然后配置它的应用路径
+SpringMVC的文件上传就是配置一个上传解析器，使用MultipartFile来接收带过来的文件。
+
+
+
 4.入门程序
 (1)导包
 (2)web.xml中配置springmvc 
