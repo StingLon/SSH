@@ -34,6 +34,18 @@ Action类处理完结果封装到ModelAndView中
 通过视图解析器把数据解析，跳转到对应的JSP页面
 
 
+
+使用注解的开发避免了继承多余的类，并且非常简洁高效。
+想要中文不乱码，仅仅设置request的编码格式是不行的。因为SpringMVC是通过无参的构造器将数据进行封装的。我们可以使用SpringMVC提供的过滤器来解决中文乱码问题。
+RequestMapping可以设置我们具体的访问路径，还可以分模块开发。基于这么两个原因，我们就可以在一个Action中写多个业务方法了。
+RequestMapping还能够限制该请求方法是GET还是POST。
+在我们的业务方法中，还可以使用传统的request和response等对象，只不过如果不是非要使用的话，最好就别使用了。
+对于SpringMVC自己帮我们封装参数，也是需要使用与request带过来的名称是相同的。如果不相同的话，我们需要使用注解来帮我们解决的。
+如果是需要封装成集合，或者封装多个Bean的话，那么我们后台的JavaBean就需要再向上一层封装，在业务方法上写上Bean进行了。当然了，在web页面上要指定对应Bean属性的属性。
+字符串转日期对象用到 @InitBinder注解来重写方法。
+返回JSON对象，我们就需要用到@ResponseBody注解，如果接收JSON数据封装成JavaBean的话，我们就需要用到@RequestBody注解。随后在配置文件上创建对应的bean即可
+
+
 4.入门程序
 (1)导包
 (2)web.xml中配置springmvc 
