@@ -1,43 +1,310 @@
-spring
+# Spring
 
-spring 是开源轻量级框架,  简化Java的开发
+## 一.spring是什么
 
-核心：  AOP：面向切面编程,扩展功能不是修改源代码实现
-       IOC：控制反转，通过配置new对象
+（1）spring 是开源轻量级框架
 
-一站式框架
+（2）核心：  AOP：面向切面编程,扩展功能不是修改源代码实现
+
+   IOC：控制反转， Ioc是把对象的创建不是通过new方法实现而是交给sping配置实现创建对象
+
+（3）一站式框架
+
 spring在javaee三层结构中每层都提供不同的解决技术
+
    Web层：  springMVC
+
    Service层： Spring  的IOC
+
    Dao层：Spring的jdbcTemplate
 
+（4）为什么用Spring
+替代更加重量级的的企业级Java技术
+
+简化Java的开发
+
+Spring是一种非侵入式的框架 (对现有的类结构没有影响，就能够增强JavaBean的功能)
+
+松耦合
+
+
+### spring包含哪些 ：
+
+- Spring Core :  spring的核心功能： IOC容器, 解决对象创建及依赖关系
+-  spring Web ：  Spring对web模块的支持。
+      -  可以与struts整合,让struts的action创建交给spring
+     - spring mvc模式
+- Spring DAO：  Spring 对jdbc操作的支持  【JdbcTemplate模板工具类】
+- Spring ORM ：spring对orm的支持：
+    - 既可以与hibernate整合，【session】
+    - 也可以使用spring的对hibernate操作的封装
+- Spring AOP ： 切面编程
+- SpringEE：   spring 对javaEE其他模块的支持
 
 
 
-1.Inversion of Control , 控制反转 IOC             IOC容器
-   Spring使用控制反转来实现对象不用在程序中写死
-   控制反转解决对象处理问题【把对象交给别人创建】
-   
-  依赖注入，dependency injection.
-  Spring使用依赖注入来实现对象之间的依赖关系
-  在创建完对象之后，对象的关系处理就是依赖注入
 
 
 
-不用自己组装，拿来就用。
-享受单例的好处，效率高，不浪费空间。
-便于单元测试，方便切换mock组件。
-便于进行AOP操作，对于使用者是透明的。
-统一配置，便于修改。
 
 
-2.三种方式来配置对象:
+## 二、IOC
 
-使用XML文件配置
+IOC控制反转  ：（通过反射实现管理bean的容器）
 
-使用注解来配置
+Spring的核心思想之一：Inversion of Control , 控制反转 IOC。==对象的创建交给外部容器完成==，这个就做控制反转。
 
-使用JavaConfig来配置
+IOC核心思想是第三方，通过第三方实现解耦。
+
+Spring使用控制反转来实现对象不用在程序中写死
+
+控制反转解决对象处理问题【把对象交给别人创建】
+那么==对象的对象之间的依赖关系Spring是怎么做的呢?  就是通过：依赖注入。==
+
+Spring使用依赖注入来实现对象之间的依赖关系
+
+在创建完对象之后，对象的关系处理就是依赖注入。
+
+
+==原理：XML配置+工厂模式+DOM4J解析+反射机制==
+
+
+
+
+### 1、Bean实例化方式之一：配置文件的方式
+步骤:<bean...>和set
+
+#### (1).bean实例化的三种方式
+- 使用类==的无参创建== （主要用法,实体类中默认无参）
+- 使用静态工厂 （忽略） (创建静态方法，返回对象)
+- 使用实例工厂（忽略） （创建不是静态方法，返回类对象）
+
+####  (2).bean标签常用属性
+
+(1)id 属性     ： 根据id值得到配置对象
+
+(2)class属性   ： 创建类的全路径
+
+(3)name属性  ：功能和ID一样
+
+(4)scope属性  ：bean的作用范围 ( Singleton:默认值，单例对象（优点：优化性能单一开发，缺点线程不安全）  、Prototype:多例对象)
+
+
+####  (3).属性注入：
+
+spring使用中两种方式：
+
+（1）==set方式==    
+
+  a.实体类中set： 
+```
+  class User{   public void setUsername(String username){this,username=username}  。。。。 ｝
+```
+
+  b.配置中设置property  ：
+```
+  <bean id="user" class="xxx">  <property  name="username" value="哈哈"/ >    </bean>
+```
+
+（2）有参构造：（忽略） 
+
+   a.实体类中有参构造： 
+   ```
+   class User{ public User (String username){this,username=username}  。。。。 ｝
+   ```
+
+  b.配置中设置constructor-arg：
+```
+  <bean id="user" class="xxx"> 
+  <constructor-arg name="username" value="哈哈" >   
+  </bean>
+```
+
+ (注意：注入复杂属性的写法，list、map、properties等再看)
+
+
+(3)接口注入（忽略） 
+
+
+### 2、Bean实例化方式之二：注解方式
+步骤：
+
+（1）开启扫描（==bean.xml==）
+```
+<!-- 只扫描属性
+<context:annotation-config /> -->
+
+<!-- 扫描所有注解方式类、方法、属性 -->
+  <context:component-scan base-package="com.test.*"/>
+```
+(2)添加注解
+
+创建对象的四个注解：功能一样，在类上写(取代配置中的<bean...>)
+
+@component     当都不是controllern,service,dao时使用这个注解
+
+@controller        web层
+
+@service           业务层
+
+@Reponsitory    持久层
+
+（@scope(value="Prototype")  多实例注解方式）
+
+(3)注入属性的两个注解： 在方法上写，取代set
+
+@Autowired          
+
+@Resource          使用：@Resource （name="xxxx"）
+
+
+## 三、AOP
+
+功能： 让关注点代码与业务代码分离！
+
+面向切面编程就是指： 对很多功能都有的重复的代码抽取，再在运行的时候往业务方法上动态植入“切面类代码”。
+
+### 1.特点：
+1.面向切面编程
+
+2.采用==横向抽取机制==，取代了传统纵向继承体系重复性代码
+
+3.==底层使用：动态代理方式实现==
+
+4.AOP编程可以简单理解成：在执行某些代码前，执行另外的代码
+
+Struts2的拦截器也是面向切面编程【在执行Action业务方法之前执行拦截器】
+
+### 2.原理：
+==底层原理：动态代理==
+
+动态代理分为： jdk动态代理和cglib动态代理。依情况选用
+
+==jdk动态代理（针对有接口的方式，普遍是这种方式）==：创建接口类，接口实现类
+
+==cglib动态代理（针对没有接口的方式）==：创建实体类的子类的代理对象，子类中调用父类方法增强
+
+
+### 3.AOP术语
+（1）切入点
+（2）增强
+（3）切面
+
+### 4.实现AOP：==aspectj框架==
+aspectj实现aop的两种方式：基于aspectj的配置文件方式、基于aspectj的注解方式。
+
+#### (1)aspectj配置文件方式
+
+
+...
+
+#### (2)aspectj注解方式
+
+步骤：
+a:开启扫描：（bean.xml中配置）
+```
+<aop：aspectj-autoproxy></aop：aspectj-autoproxy>
+```
+
+b.在==增强类中添加==注解：==@Aspect== 、
+
+方法上添加相应注解@Before、@After.....
+例如:
+```
+@Aspect
+class AOP{
+@before （value="execution(*  com.test.service.*(..))"）
+public void before(){..sysout（，，，）..}
+}
+```
+意思就是要增强com.test.service类中的所有方法那么创建一个AOP类就是增强类 ，添加注解和方法，被增强的方法上不用写东西。
+
+
+
+#### （3）优化：
+使用@Pointcut这个注解，来指定切入点表达式，在用到的地方中，直接引用就行了！
+
+```
+例如：
+   // 指定切入点表达式，拦截哪个类的哪些方法
+    @Pointcut("execution(* aa.*.*(..))")
+    public void pt() {
+    }
+    
+    @Before("pt()")
+    public void begin() {
+        System.out.println("开始事务");
+    }
+```
+
+
+
+## 四、spring中别忘了在web.xml中配置的配置
+
+（1）配置监听器
+```
+(找准确的文档，下面是大概样子)
+<listener>
+<listener-class>org.springframework.web.context.ContexetLoad...</..>
+</listener>
+```
+（2）spring中还有spring-web.jar包要导入注意别忘了
+
+(3)指定spring配置文件的配置文件位置
+```
+<context-parm>
+       <parm-name>contextConfigLocation</..>
+       <parm-value>classpath: bean.xml(看自己写的是什么名字) </..>
+</context-parm>
+
+```
+
+
+## 五、spring事务
+
+Spring的事务控制是属于Spring Dao模块的。
+
+### 1.两种实现方式:
+
+（1）编程式事务（不用了，自己手动控制事务，就叫做编程式事务控制。）
+
+（2）声明式事务（Spring提供对事务的控制管理就叫做声明式事务控制）
+
+又分为
+
+（a）基本xml配置
+
+.....
+
+（b）基于注解实现
+
+操作：
+
+a.配置文件bean.xml中添加：
+```
+
+<!-- 注解方式配置事务 -->
+      <!-- 1.配置事务管理器 -->
+      <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+          <!-- 注入事务 -->
+           <property name="dataSource" ref="dataSource"></property>             
+      </bean>
+      
+       <!-- 2.配置事务注解 -->
+        <tx:annotation-driven transaction-manager="transactionManager"/>
+      
+```
+ 
+b.调用方法的类上注解   ==@Transactional==
+
+### 3.注意： 
+使用事务不能用 try 捕获异常，程序会以为把异常处理掉，事务原理就是AOP，aop环绕通知获取不到异常就不会有回滚动作。
+
+### 4.隔离机制：四种状态。。。
+
+
+
+
 
 
 
